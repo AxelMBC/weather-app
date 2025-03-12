@@ -1,6 +1,7 @@
 body {
   background-color: #f5f5f5;
 }
+
 .border-header {
   border-bottom: solid 2px;
 }
@@ -9,4 +10,19 @@ body {
   min-height: 200px;
   background-color: #357960;
   border-radius: 30px;
+}
+.spacing-card {
+  padding-top: 80px;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.container-content {
+  width: 90%;
+}
+
+.data-highlight{
+  font-weight: 700;
+  font-size: 24px;
 }
