@@ -11,11 +11,64 @@ import {
   mainClimateChangeDataType,
 } from "../types/apiResponseType";
 
+// Importaciones de Chart.js y react-chartjs-2
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
+
+// Registrar los elementos necesarios para Chart.js
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+
+
 export default function CountryId() {
   const pathname = usePathname().split("/");
   const countryName = pathname[1].toUpperCase().replace("-", " ");
   const [response, setResponse] = useState([]);
   const [seaLevels,setSealevels] = useState([])
+
+  const chartData = {
+    labels: ["CO2 Emissions (2018)", "Temperature Change (2018)", "Sea Level Rise (Latest)"],
+    datasets: [
+      {
+        label: "Climate Data",
+        data: [
+          response[0]?.CO2?.F2018 || 0, // CO2 para 2018
+          response[0]?.Temperature?.F2018 || 0, // Temperatura para 2018
+          seaLevels[0]?.attributes?.Value || 0, // Último valor de nivel del mar
+        ],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.6)", // Rojo para CO2
+          "rgba(54, 162, 235, 0.6)", // Azul para temperatura
+          "rgba(75, 192, 192, 0.6)", // Verde para nivel del mar
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(75, 192, 192, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // Opciones del gráfico
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            const label = context.label || "";
+            const value = context.raw || 0;
+            return `${label}: ${value}`;
+          },
+        },
+      },
+    },
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -102,7 +155,11 @@ export default function CountryId() {
   }, [countryName]);
 
   return (
-    <div className="d-flex " style={{ paddingTop: "80px" }}>
+    <div className="d-flex flex-column align-items-center" style={{ paddingTop: "80px" }}>
+      <h1>{countryName}</h1>
+      <div style={{ width: "400px", height: "400px" }}>
+        <Doughnut data={chartData} options={chartOptions} />
+      </div>
       <p>Hola Mundo</p>
     </div>
   );
