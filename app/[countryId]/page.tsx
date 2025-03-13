@@ -20,7 +20,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Line } from "react-chartjs-2"; // Cambiamos Doughnut por Line
+import { Line } from "react-chartjs-2";
 
 // Registrar los elementos necesarios para Chart.js
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend);
@@ -151,16 +151,16 @@ export default function CountryId() {
               response[0].CO2.data.F2017,
               response[0].CO2.data.F2018,
             ]
-          : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // Valores por defecto si no hay datos
+          : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         borderColor: "rgba(255, 99, 132, 1)", // Rojo para la línea
         backgroundColor: "rgba(255, 99, 132, 0.2)", // Fondo bajo la línea
-        fill: true, // Rellenar el área bajo la línea
-        tension: 0.4, // Suavizar la línea
+        fill: true,
+        tension: 0.4,
       },
     ],
   };
 
-  // Opciones del gráfico de líneas
+  // Opciones del gráfico de líneas (CO2)
   const co2ChartOptions = {
     responsive: true,
     plugins: {
@@ -194,15 +194,106 @@ export default function CountryId() {
     },
   };
 
+  // Datos para el gráfico de líneas (Temperature change over time)
+  const tempChartData = {
+    labels: [
+      "2008",
+      "2009",
+      "2010",
+      "2011",
+      "2012",
+      "2013",
+      "2014",
+      "2015",
+      "2016",
+      "2017",
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+    ],
+    datasets: [
+      {
+        label: "Temperature Change (°C)",
+        data: response[0]?.Temperature?.data
+          ? [
+              response[0].Temperature.data.F2008,
+              response[0].Temperature.data.F2009,
+              response[0].Temperature.data.F2010,
+              response[0].Temperature.data.F2011,
+              response[0].Temperature.data.F2012,
+              response[0].Temperature.data.F2013,
+              response[0].Temperature.data.F2014,
+              response[0].Temperature.data.F2015,
+              response[0].Temperature.data.F2016,
+              response[0].Temperature.data.F2017,
+              response[0].Temperature.data.F2018,
+              response[0].Temperature.data.F2019,
+              response[0].Temperature.data.F2020,
+              response[0].Temperature.data.F2021,
+              response[0].Temperature.data.F2022,
+              response[0].Temperature.data.F2023,
+            ]
+          : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        borderColor: "rgba(54, 162, 235, 1)", // Azul para la línea
+        backgroundColor: "rgba(54, 162, 235, 0.2)", // Fondo bajo la línea
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  };
+
+  // Opciones del gráfico de líneas (Temperature)
+  const tempChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            const label = context.dataset.label || "";
+            const value = context.raw || 0;
+            return `${label}: ${value} °C`;
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Year",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Temperature Change (°C)",
+        },
+        beginAtZero: true,
+      },
+    },
+  };
+
   return (
     <div
       className="d-flex flex-column align-items-center"
       style={{ paddingTop: "80px" }}
     >
       <h1>{countryName}</h1>
-      <div style={{ width: "600px", height: "400px" }}>
+      <div style={{ width: "600px", height: "400px", marginBottom: "40px" }}>
+        <h2>CO2 Emissions Over Time</h2>
         <Line data={co2ChartData} options={co2ChartOptions} />
       </div>
+      <div style={{ width: "600px", height: "400px" }}>
+        <h2>Temperature Change Over Time</h2>
+        <Line data={tempChartData} options={tempChartOptions} />
+      </div>
+    
     </div>
   );
 }
