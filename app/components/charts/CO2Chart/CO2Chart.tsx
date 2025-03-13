@@ -91,7 +91,7 @@ const CO2Chart = ({ response }: CO2ChartProps) => {
 
   return (
     <div style={{ width: "600px", height: "400px", marginBottom: "40px" }}>
-      <h2>CO2 Emissions Over Time</h2>
+      <h2 className="fc-dark">CO2 Emissions Over Time</h2>
       <Line data={co2ChartData} options={co2ChartOptions} />
     </div>
   );

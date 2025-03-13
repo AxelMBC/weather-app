@@ -165,14 +165,12 @@ export default function CountryId() {
           Back to Home
         </button>
       </div>
-
-      <h1 style={{ paddingBottom: "24px" }}>{countryName}</h1>
-
+      <h1 className="fc-primary" style={{ paddingBottom: "24px" }}>{countryName}</h1>
       <CO2Chart response={response} />
       <TempChart response={response} /> {/* Nuevo componente TempChart */}
 
       <div style={{ width: "600px", height: "400px" }}>
-        <h2>Global Sea Level Change (Latest Data)</h2>
+        <h2 className="fc-dark">Global Sea Level Change (Latest Data)</h2>
         {latestSeaLevels.length > 0 ? (
           <Bar data={seaLevelChartData} options={seaLevelChartOptions} />
         ) : (

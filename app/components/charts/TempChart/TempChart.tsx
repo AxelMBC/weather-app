@@ -90,7 +90,7 @@ const TempChart = ({ response }: TempChartProps) => {
 
   return (
     <div style={{ width: "600px", height: "400px", marginBottom: "40px" }}>
-      <h2>Temperature Change Over Time</h2>
+      <h2 className="fc-dark">Temperature Change Over Time</h2>
       <Line data={tempChartData} options={tempChartOptions} />
     </div>
   );
