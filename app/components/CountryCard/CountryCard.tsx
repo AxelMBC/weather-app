@@ -1,6 +1,7 @@
+
 const CountryCard = ({ countryItem }) => {
   return (
-    <div className="cards-container d-flex align-items-stretch justify-content-evenly">
+    <div className="cards-container d-flex align-items-stretch justify-content-evenly cursor-pointer">
       <div className="container-content d-flex flex-column justify-content-between text-white pt-4">
         <div className="d-flex">
           <h1 style={{ paddingRight: "32px" }}>{countryItem.Country}</h1>
@@ -15,13 +16,13 @@ const CountryCard = ({ countryItem }) => {
         >
           <div className="d-flex flex-column">
             <p className="data-highlight m-0">
-              {countryItem.F2018 !== null ? `${countryItem.F2018} MMT` : "N/A"}
+              {countryItem.CO2.F2018 !== null ? `${countryItem.CO2.F2018} MMT` : "N/A"}
             </p>
             <p className="m-0">CO2 Emissions</p>
           </div>
           <div className="d-flex flex-column">
             <p className="data-highlight m-0">
-              {countryItem.Temp_2018 !== null ? `${countryItem.Temp_2018} °C` : "No Registros"}
+              {countryItem.Temperature.F2018 !== null ? `${countryItem.Temperature.F2018} °C` : "N/A"}
             </p>
             <p className="m-0">Temperature Change</p>
           </div>
@@ -32,7 +33,7 @@ const CountryCard = ({ countryItem }) => {
         </div>
       </div>
       <div className="d-flex h-100 align-items-center align-self-center">
-        <i className="fas fa-chevron-right text-white cursor-pointer"> </i>
+        <i className="fas fa-chevron-right text-white"> </i>
       </div>
     </div>
   );

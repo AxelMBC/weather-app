@@ -32,13 +32,46 @@ export default function Home() {
             );
             if (tempItem) {
               return {
-                ...co2Item,
-                Temp_2018: tempItem.F2018, // Añadimos la temperatura de 2018
+                Country: co2Item.Country,
+                CO2: {
+                  F2008: co2Item.F2008,
+                  F2009: co2Item.F2009,
+                  F2010: co2Item.F2010,
+                  F2011: co2Item.F2011,
+                  F2012: co2Item.F2012,
+                  F2013: co2Item.F2013,
+                  F2014: co2Item.F2014,
+                  F2015: co2Item.F2015,
+                  F2016: co2Item.F2016,
+                  F2017: co2Item.F2017,
+                  F2018: co2Item.F2018,
+                },
+                Temperature: {
+                  F2008: tempItem.F2008,
+                  F2009: tempItem.F2009,
+                  F2010: tempItem.F2010,
+                  F2011: tempItem.F2011,
+                  F2012: tempItem.F2012,
+                  F2013: tempItem.F2013,
+                  F2014: tempItem.F2014,
+                  F2015: tempItem.F2015,
+                  F2016: tempItem.F2016,
+                  F2017: tempItem.F2017,
+                  F2018: tempItem.F2018,
+                  F2019: tempItem.F2019,
+                  F2020: tempItem.F2020,
+                  F2021: tempItem.F2021,
+                  F2022: tempItem.F2022,
+                  F2023: tempItem.F2023,
+                },
+                Unit: co2Item.Unit, // De CO2
+                Source: co2Item.Source, // De CO2
+                Industry: co2Item.Industry, // De CO2
               };
             }
             return null; // Si no hay coincidencia, devolvemos null
           })
-          .filter((item) => item !== null); // Filtramos los null para quedarnos solo con países que tienen ambos datos
+          .filter((item) => item !== null); // Filtramos los null
 
         setResponse(combinedData);
       } catch (error) {
