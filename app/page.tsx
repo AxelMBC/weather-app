@@ -11,7 +11,6 @@ import {
   seaLevelResponseType
 } from "./types/apiResponseType";
 import axios from "axios";
-import "./globals.css";
 
 export default function Home() {
   const [response, setResponse] = useState<mainClimateChangeDataType[]>([]);
