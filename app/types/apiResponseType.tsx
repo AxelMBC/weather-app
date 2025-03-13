@@ -46,6 +46,17 @@ export interface tempChangeResponseType {
   attributes: cO2DataType;
 }
 
+export interface seaLevelDataType {
+  Measure: string; 
+  Value: number;   
+  Unit: string;
+  Source: string;
+}
+
+export interface seaLevelResponseType {
+  attributes: seaLevelDataType;
+}
+
 export interface mainClimateChangeDataType {
   Country: string;
   CO2: {
@@ -69,7 +80,6 @@ export interface mainClimateChangeDataType {
   Temperature: {
     Source: string;
     Unit: string;
-
     data: {
       F2008: number;
       F2009: number;
@@ -89,4 +99,5 @@ export interface mainClimateChangeDataType {
       F2023: number;
     };
   };
+  SeaLevel: seaLevelDataType[];
 }

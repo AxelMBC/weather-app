@@ -9,10 +9,14 @@ const CountryCard = ({ countryItem }: CountryCardProps) => {
   const router = useRouter();
   const link = countryItem.Country.toLowerCase().replace(" ", "-");
 
+  // Select a random sea from the SeaLevel array
+  const randomSea =
+    countryItem.SeaLevel[Math.floor(Math.random() * countryItem.SeaLevel.length)];
+
   return (
     <div
       className="cards-container d-flex align-items-stretch justify-content-evenly cursor-pointer"
-      onClick={() => router.push(`/${link}`)}
+      onClick={() => router.push(`/${link}`)} // Fixed template literal syntax
     >
       <div className="container-content d-flex flex-column justify-content-between text-white pt-4">
         <div className="d-flex">
@@ -43,13 +47,15 @@ const CountryCard = ({ countryItem }: CountryCardProps) => {
             <p className="m-0">Temperature Change</p>
           </div>
           <div className="d-flex flex-column">
-            <p className="data-highlight m-0">3.5 mm</p>
-            <p className="m-0">Sea Level Rise</p>
+            <p className="data-highlight m-0">
+              {randomSea ? `${randomSea.Value} mm` : "N/A"}
+            </p>
+            <p className="m-0">{randomSea ? randomSea.Measure : "Sea Level Rise"}</p>
           </div>
         </div>
       </div>
       <div className="d-flex h-100 align-items-center align-self-center">
-        <i className="fas fa-chevron-right text-white"> </i>
+        <i className="fas fa-chevron-right text-white"></i>
       </div>
     </div>
   );

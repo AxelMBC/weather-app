@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { usePathname, useRouter } from "next/navigation"; // Añadimos useRouter
+import { usePathname, useRouter } from "next/navigation";
 import {
   cO2ResponseType,
   cO2DataType,
@@ -9,8 +9,6 @@ import {
   tempChangeType,
   mainClimateChangeDataType,
 } from "../types/apiResponseType";
-
-// Importaciones de Chart.js y react-chartjs-2
 import {
   Chart as ChartJS,
   LineElement,
@@ -20,10 +18,10 @@ import {
   BarElement,
   Tooltip,
   Legend,
+  TooltipItem 
 } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 
-// Registrar los elementos necesarios para Chart.js
 ChartJS.register(
   LineElement,
   PointElement,
@@ -34,12 +32,22 @@ ChartJS.register(
   Legend
 );
 
+interface SeaLevelType {
+  attributes: {
+    Date: string;
+    Measure: string;
+    Value: number;
+  };
+}
+
 export default function CountryId() {
   const pathname = usePathname().split("/");
   const countryName = pathname[1].toUpperCase().replace("-", " ");
   const [response, setResponse] = useState<mainClimateChangeDataType[]>([]);
-  const [seaLevels, setSeaLevels] = useState<any[]>([]);
-  const router = useRouter(); // Hook para manejar la navegación
+  const [seaLevels, setSeaLevels] = useState<SeaLevelType[]>([]);
+  const router = useRouter(); 
+  // console.log("seaLevels: ", seaLevels)
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -173,10 +181,10 @@ export default function CountryId() {
   const co2ChartOptions = {
     responsive: true,
     plugins: {
-      legend: { position: "top" },
+      
       tooltip: {
         callbacks: {
-          label: (context) => `${context.dataset.label}: ${context.raw} MMT`,
+          label: (context: TooltipItem<"line">) => `${context.dataset.label}: ${context.raw} MMT`,
         },
       },
     },
@@ -247,10 +255,10 @@ export default function CountryId() {
   const tempChartOptions = {
     responsive: true,
     plugins: {
-      legend: { position: "top" },
+      
       tooltip: {
         callbacks: {
-          label: (context) => `${context.dataset.label}: ${context.raw} °C`,
+          label: (context: TooltipItem<"line">) => `${context.dataset.label}: ${context.raw} °C`,
         },
       },
     },
@@ -286,10 +294,9 @@ export default function CountryId() {
   const seaLevelChartOptions = {
     responsive: true,
     plugins: {
-      legend: { position: "top" },
       tooltip: {
         callbacks: {
-          label: (context) => `${context.label}: ${context.raw} mm`,
+          label: (context:TooltipItem<"bar">) => `${context.label}: ${context.raw} mm`,
         },
       },
     },
