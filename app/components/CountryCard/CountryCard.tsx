@@ -1,17 +1,17 @@
-const CountryCard = () => {
+const CountryCard = ({countryItem}:{countryItem:any}) => {
   return (
-    <div className="w-100 h-100  d-flex justify-content-evenly">
-      <div className="container-content h-100  d-flex flex-column text-white pt-4">
-        <div className="d-flex mb-auto">
-          <h1 style={{ paddingRight: "32px" }}>China</h1>
+    <div className="cards-container d-flex align-items-stretch justify-content-evenly">
+      <div className="container-content d-flex flex-column justify-content-between text-white pt-4">
+        <div className="d-flex">
+          <h1 style={{ paddingRight: "32px" }}>{countryItem.Country}</h1>
           <div className="d-flex align-items-center">
             <i className="fa-solid fa-people-group fa-2xl me-2"></i>
             <p className="m-0">1,425,179,569</p>
           </div>
         </div>
-        <div className="d-flex w-100 align-self-baseline justify-content-between" style={{marginBottom:"32px"}}>
+        <div className="d-flex w-100 justify-content-between" style={{paddingBottom: "32px"}} >
           <div className="d-flex flex-column">
-            <p className="data-highlight m-0">12,667,428,430 T</p>
+            <p className="data-highlight m-0">{countryItem.F2018} MMT</p>
             <p className="m-0">CO2 Emissions</p>
           </div>
           <div className="d-flex flex-column">
@@ -25,7 +25,7 @@ const CountryCard = () => {
           </div>
         </div>
       </div>
-      <div className="d-flex h-100 align-items-center">
+      <div className="d-flex h-100 align-items-center align-self-center">
         <i className="fas fa-chevron-right text-white cursor-pointer"> </i>
       </div>
     </div>
