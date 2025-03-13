@@ -1,35 +1,53 @@
 "use client";
+// import Chart from "chart.js"
 import { useEffect, useState } from "react";
-import axios from "axios"
-import { usePathname, useSearchParams } from "next/navigation";
+import axios from "axios";
+import { usePathname } from "next/navigation";
+import {
+  cO2ResponseType,
+  cO2DataType,
+  tempChangeResponseType,
+  tempChangeType,
+  mainClimateChangeDataType,
+} from "../types/apiResponseType";
 
 export default function CountryId() {
   const pathname = usePathname().split("/");
-    //   console.log(pathname[1]);
-    const countryName = pathname[1].toUpperCase().replace("-", " ")
-    const [response, setResponse] = useState([]);
-  console.log("Response: ", response);
+  const countryName = pathname[1].toUpperCase().replace("-", " ");
+  const [response, setResponse] = useState([]);
+  const [seaLevels,setSealevels] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [co2Response, tempResponse] = await Promise.all([
-          axios.get(
-            `https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Indicator_2_Carbon_Emission_per_unit_of_Output/FeatureServer/0/query?where=Unit%20%3D%20'MILLIONS%20OF%20METRIC%20TONS%20OF%20CO2'%20AND%20Industry%20%3D%20'ELECTRICITY,%20GAS,%20STEAM%20AND%20AIR%20CONDITIONING%20SUPPLY'%20AND%20Country%20%3D%20'${countryName}'&outFields=Country,Unit,Source,F2018,F2017,F2016,F2015,F2014,F2013,F2012,F2011,F2010,F2009,F2008,Industry&outSR=4326&f=json`
-          ),
-          axios.get(
-            `https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Indicator_3_1_Climate_Indicators_Annual_Mean_Global_Surface_Temperature/FeatureServer/0/query?where=Country%20%3D%20'${countryName}'&outFields=Country,Unit,Source,F2008,F2009,F2010,F2011,F2012,F2013,F2014,F2015,F2016,F2017,F2018,F2019,F2020,F2021,F2022,F2023&outSR=4326&f=json`
-          ),
-        ]);
+        const [co2Response, tempResponse, seaLevelResponse] = await Promise.all(
+          [
+            axios.get(
+              `https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Indicator_2_Carbon_Emission_per_unit_of_Output/FeatureServer/0/query?where=Unit%20%3D%20'MILLIONS%20OF%20METRIC%20TONS%20OF%20CO2'%20AND%20Industry%20%3D%20'ELECTRICITY,%20GAS,%20STEAM%20AND%20AIR%20CONDITIONING%20SUPPLY'%20AND%20Country%20%3D%20'${countryName}'&outFields=Country,Unit,Source,F2018,F2017,F2016,F2015,F2014,F2013,F2012,F2011,F2010,F2009,F2008,Industry&outSR=4326&f=json`
+            ),
+            axios.get(
+              `https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Indicator_3_1_Climate_Indicators_Annual_Mean_Global_Surface_Temperature/FeatureServer/0/query?where=Country%20%3D%20'${countryName}'&outFields=Country,Unit,Source,F2008,F2009,F2010,F2011,F2012,F2013,F2014,F2015,F2016,F2017,F2018,F2019,F2020,F2021,F2022,F2023&outSR=4326&f=json`
+            ),
+            axios.get(
+              `https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Indicator_3_3_melted_new/FeatureServer/0/query?where=1%3D1&outFields=Country,Indicator,Unit,Source,Measure,Value,Date&outSR=4326&f=json&orderByFields=Date%20DESC&resultRecordCount=100`
+            ),
+          ]
+        );
+        setSealevels(seaLevelResponse.data.features)
+        console.log("seaLevelResponse: ", seaLevelResponse);
 
-        const co2Data = co2Response.data.features.map((item) => item.attributes);
-        const tempData = tempResponse.data.features.map((item) => item.attributes);
+        const co2Data = co2Response.data.features.map(
+          (item: cO2ResponseType) => item.attributes
+        );
+        const tempData = tempResponse.data.features.map(
+          (item: tempChangeResponseType) => item.attributes
+        );
 
         // Combinar los datos solo para países que estén en ambas listas
         const combinedData = co2Data
-          .map((co2Item) => {
+          .map((co2Item: cO2DataType) => {
             const tempItem = tempData.find(
-              (temp) => temp.Country === co2Item.Country
+              (temp: tempChangeType) => temp.Country === co2Item.Country
             );
             if (tempItem) {
               return {
@@ -72,7 +90,7 @@ export default function CountryId() {
             }
             return null; // Si no hay coincidencia, devolvemos null
           })
-          .filter((item) => item !== null); // Filtramos los null
+          .filter((item: mainClimateChangeDataType) => item !== null); // Filtramos los null
 
         setResponse(combinedData);
       } catch (error) {
@@ -81,7 +99,11 @@ export default function CountryId() {
     };
 
     fetchData();
-  }, []);
+  }, [countryName]);
 
-  return <div>Hola</div>;
+  return (
+    <div className="d-flex " style={{ paddingTop: "80px" }}>
+      <p>Hola Mundo</p>
+    </div>
+  );
 }
