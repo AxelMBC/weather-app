@@ -1,8 +1,13 @@
 import { useRouter } from "next/navigation";
+import { mainClimateChangeDataType } from "../../types/apiResponseType";
 
-const CountryCard = ({ countryItem }) => {
+interface CountryCardProps {
+  countryItem: mainClimateChangeDataType;
+}
+
+const CountryCard = ({ countryItem }: CountryCardProps) => {
   const router = useRouter();
-  const link = countryItem.Country.toLowerCase().replace(" ", "-")
+  const link = countryItem.Country.toLowerCase().replace(" ", "-");
 
   return (
     <div
@@ -23,16 +28,16 @@ const CountryCard = ({ countryItem }) => {
         >
           <div className="d-flex flex-column">
             <p className="data-highlight m-0">
-              {countryItem.CO2.F2018 !== null
-                ? `${countryItem.CO2.F2018} MMT`
+              {countryItem.CO2.data.F2018 !== null
+                ? `${countryItem.CO2.data.F2018} MMT`
                 : "N/A"}
             </p>
             <p className="m-0">CO2 Emissions</p>
           </div>
           <div className="d-flex flex-column">
             <p className="data-highlight m-0">
-              {countryItem.Temperature.F2018 !== null
-                ? `${countryItem.Temperature.F2018} °C`
+              {countryItem.Temperature.data.F2018 !== null
+                ? `${countryItem.Temperature.data.F2018} °C`
                 : "N/A"}
             </p>
             <p className="m-0">Temperature Change</p>
