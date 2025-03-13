@@ -1,13 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
 import CountryCard from "./components/CountryCard";
-import Header from "./components/Header";
+import {
+  cO2ResponseType,
+  cO2DataType,
+  tempChangeResponseType,
+  tempChangeType,
+} from "./types/apiResponse";
+
 import axios from "axios";
 import "./globals.css";
 
 export default function Home() {
   const [response, setResponse] = useState([]);
-  console.log("Response: ", response);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,15 +25,18 @@ export default function Home() {
             `https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Indicator_3_1_Climate_Indicators_Annual_Mean_Global_Surface_Temperature/FeatureServer/0/query?where=1%3D1&outFields=Country,Unit,Source,F2008,F2009,F2010,F2011,F2012,F2013,F2014,F2015,F2016,F2017,F2018,F2019,F2020,F2021,F2022,F2023&outSR=4326&f=json&resultRecordCount=100`
           ),
         ]);
-
-        const co2Data = co2Response.data.features.map((item) => item.attributes);
-        const tempData = tempResponse.data.features.map((item) => item.attributes);
+        const co2Data = co2Response.data.features.map(
+          (item: cO2ResponseType) => item.attributes
+        );
+        const tempData = tempResponse.data.features.map(
+          (item: tempChangeResponseType) => item.attributes
+        );
 
         // Combinar los datos solo para países que estén en ambas listas
         const combinedData = co2Data
-          .map((co2Item) => {
+          .map((co2Item: cO2DataType) => {
             const tempItem = tempData.find(
-              (temp) => temp.Country === co2Item.Country
+              (temp: tempChangeType) => temp.Country === co2Item.Country
             );
             if (tempItem) {
               return {
@@ -87,7 +95,6 @@ export default function Home() {
   return (
     <div>
       <main>
-        <Header />
         <div className="spacing-card d-flex flex-column align-items-center gap-4">
           {response.length > 0 &&
             response.map((item) => (
