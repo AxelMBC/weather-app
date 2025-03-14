@@ -11,15 +11,24 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { mainClimateChangeDataType } from "../../../types/apiResponseType";
+import Spinner from "../../utils/Spinner";
 
 // Register ChartJS components
-ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend);
+ChartJS.register(
+  LineElement,
+  PointElement,
+  LinearScale,
+  CategoryScale,
+  Tooltip,
+  Legend
+);
 
 interface TempChartProps {
   response: mainClimateChangeDataType[];
+  loading: boolean;
 }
 
-const TempChart = ({ response }: TempChartProps) => {
+const TempChart = ({ response, loading }: TempChartProps) => {
   const tempChartData = {
     labels: [
       "2008",
@@ -75,7 +84,8 @@ const TempChart = ({ response }: TempChartProps) => {
     plugins: {
       tooltip: {
         callbacks: {
-          label: (context: TooltipItem<"line">) => `${context.dataset.label}: ${context.raw} °C`,
+          label: (context: TooltipItem<"line">) =>
+            `${context.dataset.label}: ${context.raw} °C`,
         },
       },
     },
@@ -91,7 +101,11 @@ const TempChart = ({ response }: TempChartProps) => {
   return (
     <div style={{ width: "600px", height: "400px", marginBottom: "40px" }}>
       <h2 className="fc-dark">Temperature Change Over Time</h2>
-      <Line data={tempChartData} options={tempChartOptions} />
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Line data={tempChartData} options={tempChartOptions} />
+      )}
     </div>
   );
 };

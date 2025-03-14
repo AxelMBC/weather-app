@@ -51,6 +51,7 @@ export interface seaLevelDataType {
   Value: number;   
   Unit: string;
   Source: string;
+  Date: string;
 }
 
 export interface seaLevelResponseType {
