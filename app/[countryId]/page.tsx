@@ -141,13 +141,13 @@ export default function CountryId() {
       <div className="d-flex" style={{ width: "600px" }}>
         <button
           onClick={() => router.push("/")}
-          className="btn btn-outline-secondary"
+          className="btn btn-outline-dark"
           style={{ margin: "0 0 24px 0" }}
         >
           Back to Home
         </button>
       </div>
-      <h1 className="fc-tertiary" style={{ paddingBottom: "24px" }}>
+      <h1 className="fc-dark" style={{ paddingBottom: "24px" }}>
         {countryName}
       </h1>
       <CO2Chart response={response} loading={loading} />

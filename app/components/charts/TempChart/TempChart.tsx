@@ -73,7 +73,6 @@ const TempChart = ({ response, loading }: TempChartProps) => {
           : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         borderColor: "rgba(54, 162, 235, 1)",
         backgroundColor: "rgba(54, 162, 235, 0.2)",
-        fill: true,
         tension: 0.4,
       },
     ],
@@ -100,7 +99,21 @@ const TempChart = ({ response, loading }: TempChartProps) => {
 
   return (
     <div style={{ width: "600px", height: "400px", marginBottom: "40px" }}>
-      <h2 className="fc-dark">Temperature Change Over Time</h2>
+      <div className="d-flex align-items-center justify-content-between">
+        <h2 className="fc-dark">Temperature Change Over Time</h2>
+        {response && (
+          <button
+            type="button"
+            className="btn btn-src"
+            data-bs-toggle="tooltip"
+            data-bs-placement="right"
+            title={response[0]?.CO2.Source}
+          >
+            Src
+          </button>
+        )}
+      </div>
+
       {loading ? (
         <Spinner />
       ) : (

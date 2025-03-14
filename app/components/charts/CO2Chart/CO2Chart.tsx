@@ -13,7 +13,6 @@ import { Line } from "react-chartjs-2";
 import { mainClimateChangeDataType } from "../../../types/apiResponseType";
 import Spinner from "../../utils/Spinner";
 
-// Register ChartJS components
 ChartJS.register(
   LineElement,
   PointElement,
@@ -29,6 +28,7 @@ interface CO2ChartProps {
 }
 
 const CO2Chart = ({ response, loading }: CO2ChartProps) => {
+  console.log("response: ", response);
   const co2ChartData = {
     labels: [
       "2008",
@@ -63,7 +63,6 @@ const CO2Chart = ({ response, loading }: CO2ChartProps) => {
           : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         borderColor: "rgba(255, 99, 132, 1)",
         backgroundColor: "rgba(255, 99, 132, 0.2)",
-        fill: true,
         tension: 0.4,
       },
     ],
@@ -93,7 +92,21 @@ const CO2Chart = ({ response, loading }: CO2ChartProps) => {
 
   return (
     <div style={{ width: "600px", height: "400px", marginBottom: "40px" }}>
-      <h2 className="fc-dark">CO2 Emissions Over Time</h2>
+      <div className="d-flex align-items-center justify-content-between">
+        <h2 className="fc-dark">CO2 Emissions Over Time</h2>
+        {response && (
+          <button
+            type="button"
+            className="btn btn-src"
+            data-bs-toggle="tooltip"
+            data-bs-placement="right"
+            title={response[0]?.CO2.Source}
+          >
+            Src
+          </button>
+        )}
+      </div>
+
       {loading ? (
         <Spinner />
       ) : (
